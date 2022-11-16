@@ -10,7 +10,7 @@ const generarJWT = (uid = '') => {
 			payload,
 			process.env.SECRETORPUBLICKEY,
 			{
-				expiresIn: '80000h',
+				expiresIn: '730d',
 			},
 			(err, token) => {
 				if (err) {
