@@ -11,8 +11,8 @@ const googleVerify = async (token = '') => {
 		//[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
 	});
 	const { name, picture, email } = ticket.getPayload();
+	// console.log(name, picture, email);
 
-	// console.log(payload);
 	return {
 		name,
 		img: picture,

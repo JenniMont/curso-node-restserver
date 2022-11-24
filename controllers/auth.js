@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const { generarJWT } = require('../helpers/generar-jwt');
 const { googleVerify } = require('../helpers/google-verify');
-const { DefaultTransporter } = require('google-auth-library');
 
 const login = async (req, res = response) => {
 	const { email, password } = req.body;
@@ -58,25 +57,25 @@ const googleSignIn = async (req, res = response) => {
 		const { email, name, img } = await googleVerify(id_token);
 		// console.log(googleUser);
 		let user = await User.findOne({ email });
-
 		if (!user) {
+			// Tengo que crearlo
 			const data = {
 				name,
 				email,
-				password: '',
+				password: ':P',
+				rol: 'USER_ROLE',
 				img,
 				google: true,
-				rol: 'USER_ROLE',
 			};
 
 			user = new User(data);
 			await user.save();
 		}
 
-		//Si el user en BD
+		// Si el usuario en DB
 		if (!user.state) {
-			return res.status(400).json({
-				msg: ' Hable con el administrador, usuario bloqueado',
+			return res.status(401).json({
+				msg: 'Hable con el administrador, usuario bloqueado',
 			});
 		}
 
@@ -87,7 +86,8 @@ const googleSignIn = async (req, res = response) => {
 			user,
 			token,
 		});
-	} catch {
+	} catch (error) {
+		console.log(error);
 		res.status(400).json({
 			// ok: false,
 			msg: 'El token no se pudoo verificar',
