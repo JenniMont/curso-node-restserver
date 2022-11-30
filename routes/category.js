@@ -2,6 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const { validarCampos, validarJWT } = require('../middlewares/index.js');
+
 const { createCategory } = require('../controllers/category');
 
 const router = express.Router();

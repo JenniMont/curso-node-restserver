@@ -30,13 +30,17 @@
 		<button id="google_signout">Signout</button>
 
 		<script>
+			const url = window.location.hostname.includes('localhost')
+				? 'http://localhost:3000/api/auth/google'
+				: 'https://restserver-node-2022.herokuapp.com/api/auth/google';
+
 			function handleCredentialResponse(response) {
 				// Google token: ID_TOKEN
 
 				// console.log('id_token', response.credential);
 				const body = { id_token: response.credential };
 
-				fetch('http://localhost:3000/api/auth/google', {
+				fetch(url, {
 					method: 'POST',
 					body: JSON.stringify(body),
 					headers: {
