@@ -10,7 +10,7 @@ const generarJWT = (uid = '') => {
 			payload,
 			process.env.SECRETORPUBLICKEY,
 			{
-				expiresIn: '730d',
+				expiresIn: '1730001h', // Si tienes throw new Error('Wrong number of segments in token: ' + jwt) es por q expiro el token
 			},
 			(err, token) => {
 				if (err) {

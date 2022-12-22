@@ -8,16 +8,17 @@ const {
 } = require('../middlewares/index.js');
 
 const {
-	createCategory,
-	getCategories,
-	getCategoryById,
-	updateCategory,
-	deleteCategory,
-} = require('../controllers/category');
+	createProduct,
+	getProduct,
+	updateProduct,
+	deleteProduct,
+	getProducts,
+} = require('../controllers/products');
 
 const {
 	existCategoryById,
-	updateExistCategory,
+	existProductById,
+	existProductByName,
 } = require('../helpers/db-validators');
 
 const router = express.Router();
@@ -26,29 +27,31 @@ const router = express.Router();
  * {{url}}/api/categories
  */
 
-// Obtener todas las categorias - publico
-router.get('/', getCategories);
+// Obtener todas los productos - publico
+router.get('/', getProducts);
 
-// Obtener una categoria por idf - publico
+// Obtener un producto por id - publico
 router.get(
 	'/:id',
 	[
 		check('id', 'No es un ID valido').isMongoId(),
 		validarCampos,
-		check('id').custom(existCategoryById),
+		check('id').custom(existProductById),
 	],
-	getCategoryById
+	getProduct
 );
 
-// Crear categoria - privado - cualquier persona con un toquen valido
+// Crear producto - privado - cualquier persona con un toquen valido
 router.post(
 	'/',
 	[
 		validarJWT,
 		check('name', 'El nombre es obligatorio').notEmpty(),
+		// check('category', 'No es un id de Mongo').isMongoId(),
+		check('category').custom(existCategoryById),
 		validarCampos,
 	],
-	createCategory
+	createProduct
 );
 
 // Actualizar - privado cualquiera con token valido
@@ -56,14 +59,14 @@ router.put(
 	'/:id',
 	[
 		validarJWT,
-		check('name', 'El nombre es obligatorio').notEmpty(),
-		check('id').custom(existCategoryById),
+		check('id').custom(existProductById),
+		check('name').custom(existProductByName),
 		validarCampos,
 	],
-	updateCategory
+	updateProduct
 );
 
-// Borrar una categoria - Admin
+// Borrar un producto - Admin
 router.delete(
 	'/:id',
 	[
@@ -72,11 +75,11 @@ router.delete(
 
 		check('id', 'No es un ID valido de Mongo').isMongoId(),
 		validarCampos,
-		check('id').custom(existCategoryById),
+		check('id').custom(existProductById),
 
 		validarCampos,
 	],
-	deleteCategory
+	deleteProduct
 );
 
 module.exports = router;

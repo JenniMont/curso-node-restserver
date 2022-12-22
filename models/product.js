@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const category = require('./category');
 const { Schema, model } = mongoose;
 
-const CategorySchema = Schema({
+const ProductSchema = Schema({
 	name: {
 		type: String,
 		required: [true, 'El nombre es obligatorio'],
@@ -19,12 +20,27 @@ const CategorySchema = Schema({
 		ref: 'User',
 		required: true,
 	},
+
+	price: {
+		type: Number,
+		default: 0,
+	},
+
+	category: {
+		type: Schema.Types.ObjectID,
+		ref: 'Category',
+		required: true,
+	},
+
+	description: { type: String },
+
+	available: { type: Boolean, default: true },
 });
 
-CategorySchema.methods.toJSON = function () {
+ProductSchema.methods.toJSON = function () {
 	const { __v, state, ...data } = this.toObject();
 
 	return data;
 };
 
-module.exports = mongoose.model('Category', CategorySchema);
+module.exports = mongoose.model('Product', ProductSchema);
