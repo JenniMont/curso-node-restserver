@@ -30,6 +30,8 @@ const UserSchema = Schema({
 		type: Boolean,
 		default: false,
 	},
+
+	img: { type: String },
 });
 
 // Borra el password // "__V = version

@@ -75,6 +75,22 @@ const existProductByName = async (name) => {
 	});
 };
 
+/**
+ *  Validador Colecciones Permitidas
+ */
+
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+	const colecIncluida = colecciones.includes(coleccion);
+
+	if (!colecIncluida) {
+		throw new Error(
+			`La coleccion ${coleccion} no es permitida, ${colecciones}`
+		);
+	}
+
+	return true;
+};
+
 module.exports = {
 	esRolValido,
 	emailExits,
@@ -83,4 +99,5 @@ module.exports = {
 	updateExistCategory,
 	existProductById,
 	existProductByName,
+	coleccionesPermitidas,
 };

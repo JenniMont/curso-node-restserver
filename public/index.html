@@ -32,12 +32,12 @@
 		<script>
 			const url = window.location.hostname.includes('localhost')
 				? 'http://localhost:3000/api/auth/google'
-				: 'https://restserver-node-2022.herokuapp.com/api/auth/google';
+				: 'https://curso-node-restserver-production-3459.up.railway.app/api/auth/google';
 
 			function handleCredentialResponse(response) {
 				// Google token: ID_TOKEN
 
-				// console.log('id_token', response.credential);
+				console.log('id_token', response.credential);
 				const body = { id_token: response.credential };
 
 				fetch(url, {
